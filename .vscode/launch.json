@@ -14,29 +14,6 @@
             ],
             "restart": true
         },
-
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to Process",
-            "processId": "${command:PickProcess}",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "restart": true,
-            "port": 9229
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Server Debug",
-            "program": "${workspaceFolder}/server/app.js",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "localRoot": "${workspaceFolder}/server",
-            "remoteRoot": "/"
-        },
         {
             "type": "chrome",
             "request": "launch",
