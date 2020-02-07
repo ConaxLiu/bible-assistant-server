@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import BibleContent from "./components/BibleContent";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <div className="logo">LOGO</div>
+        <nav>
+          <ul className="navigation">
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+            <li>Four</li>
+          </ul>
+        </nav>
       </header>
+      <section>
+        <div className="contentCol leftPane">
+          <BibleContent />
+        </div>
+        <div className="contentCol rightPane">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi fuga
+          ullam, praesentium asperiores laboriosam est doloribus labore dicta
+          illo quia deleniti distinctio saepe accusantium illum recusandae, unde
+          debitis molestias. Consequatur?
+        </div>
+      </section>
+      <footer>
+        <div className="footerItem">
+          Copyright &copy; 2020 Conax Software Development Ltd
+        </div>
+      </footer>
     </div>
   );
 }

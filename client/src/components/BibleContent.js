@@ -1,52 +1,115 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
-import './BibleContent.css'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./BibleContent.css";
 
 function BibleContent() {
-    const [bookName, setBookName] = useState('創世紀')
-    const [chapterNo, setChapterNo] = useState('1')
-    const [verseNo, setVerseNo] = useState('1')
-    const [bibleContent, setBibleContent] = useState({})
+  const [bookNames, setbookNames] = useState([]);
+  const [bookName, setBookName] = useState("創世紀");
+  const [chapterNos, setChapterNos] = useState([]);
+  const [chapterNo, setChapterNo] = useState("1");
+  const [chapterContent, setChapterContent] = useState({});
 
-    useEffect(() => {
-        axios.get(`http://localhost:3000/api/${bookName}/${chapterNo}`)
-            .then(resp => {
-                console.log(resp)
-                setBibleContent(resp.data)
-            })
-            .catch(error => {
-                console.log(error)
-                setBibleContent({id:0, title:'Post does not exist'})
-            })
+  useEffect(() => {
+    console.log("useEffect");
 
-        return () => {
-            //cleanup
-        };
-    }, [bookName, chapterNo, verseNo])
-
-    const handleBookNameChange = (e) => {
-        setBookName(e.target.value)
+    if(bookNames.length === 0) {
+      getBookNames()
+      getChapterNos(bookName)
     }
+    //getChapterNos(bookName)
+    getSelectedChapter(bookName, chapterNo)
 
-    const handleChapterChange = (e) => {
-        setChapterNo(e.target.value)
-    }
+    return () => {};
+  }, [bookName, chapterNo]);
 
-    return (
-        <div id="bible-content-wrapper">
-            <div className="control-wrapper">
-                <label htmlFor="book">書</label>
-                <select name="book" id="book">
-                    <option value="創世紀">創世紀</option>
-                </select>
-                <label htmlFor="chapter">章</label>
-                <select name="chapter" id="chapter">
-                    <option value="1">1</option>
-                </select>
-            </div>
-            <div id="bible-content"></div>
-        </div>
-    )
+  const getBookNames = () => {
+    console.log("getBookNames")
+    axios
+    .get("http://localhost:3000/api/contents/booknames")
+    .then(resp => {
+      console.log("getBookNames data: ", resp.data);
+      setbookNames(resp.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  const getChapterNos = (selectedBook) => {
+    console.log("getChapterNos", selectedBook)
+    axios
+      .get(`http://localhost:3000/api/contents/${selectedBook}/chapterNumbers`)
+      .then(resp => {
+        console.log("getChapterNos data: ", resp.data);
+        setChapterNos(resp.data);
+
+        if(parseInt(chapterNo) > resp.data.length ) {
+          setChapterNo(resp.data.length)
+        }
+      })
+      .catch(error => {
+         console.log(error);
+      });
+  }
+
+  const getSelectedChapter = (selectedBook, selectedChapter) => {
+    console.log("getSelectedChapter", selectedBook, selectedChapter)
+    axios
+      .get(`http://localhost:3000/api/contents/${selectedBook}/${selectedChapter}`)
+      .then(resp => {
+        console.log("getSelectedChapter data: ", resp.data);
+        setChapterContent(resp.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const handleBookNameChange = e => {
+    const selectedBook = e.target.value;
+    setBookName(selectedBook)
+    getChapterNos(selectedBook)
+  };
+
+  const handleChapterChange = e => {
+    const selectedChapter = e.target.value;
+    setChapterNo(selectedChapter)
+  };
+
+  return (
+    <div id="bible-content-wrapper">
+      <div className="control-wrapper">
+        <select name="book" id="book" value={bookName} onChange={handleBookNameChange}>
+          {bookNames.map(book => (
+            <option key={book} value={book}>
+              {book}
+            </option>
+          ))}
+        </select>
+        <span>第</span>
+        <select name="chapter" id="chapter" value={chapterNo} onChange={handleChapterChange}>
+          {chapterNos.map(chap => (
+            <option key={chap} value={chap}>
+              {chap}
+            </option>
+          ))}
+        </select>
+        <span>章</span>
+        <button className="btnPrev">上一章</button>
+        <button className="btnNext">下一章</button>
+      </div>
+      <div id="bible-content">
+        {Object.entries(chapterContent).map(([verseNo, verseText]) => (
+          <span key={verseNo}>
+            <span className="verseNo">
+              {verseNo}
+              <span className="verseText">{verseText}</span>
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default BibleContent
+export default BibleContent;
