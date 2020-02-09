@@ -16,6 +16,11 @@
     margin-left: auto;
 }
 
+#bible-content-wrapper .btnNext {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
 #bible-content {
     background-color: white;
     padding: 5px;
@@ -26,7 +31,8 @@
     height:100$;
     overflow-y: scroll;
     */
-    font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+    /*font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;*/
+    font-family: monospace;
     font-size: 1.5em;
     line-height: 1.5em;
     text-align: left;

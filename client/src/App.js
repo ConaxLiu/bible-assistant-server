@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <div className="logo">LOGO</div>
+        <div className="logo"><span>Conax Bible Assistant</span></div>
         <nav>
           <ul className="navigation">
             <li>One</li>

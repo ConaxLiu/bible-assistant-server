@@ -18,7 +18,11 @@ module.exports.getBookNames = (bible) => {
         let bookNames = [];
 
         for (bookName in bible) {
-            bookNames.push(bookName);
+            const bookNameData = {}
+            bookNameData.bookName = bookName
+            const chapterNumbers = this.getChapterNumbers(bible, bookName)
+            bookNameData.chapters = chapterNumbers
+            bookNames.push(bookNameData);
         }
 
         return bookNames;
@@ -45,7 +49,7 @@ module.exports.getChapterNumbers = (bible, bookName) => {
         let chapterNumbers = [];
 
         for (chapterNumber in book) {
-            chapterNumbers.push(chapterNumber);
+            chapterNumbers.push(parseInt(chapterNumber));
         }
 
         return chapterNumbers;

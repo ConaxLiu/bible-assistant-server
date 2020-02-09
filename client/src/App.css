@@ -42,7 +42,8 @@
   
   height: 100%;
   background-color: darkcyan;
-  
+  width:1000px;
+  margin: auto;
 }
 
 header {
@@ -50,7 +51,7 @@ header {
   padding: 10px;
   border: 0px solid cyan;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   /*
   position: relative;
   width: 100%;
@@ -61,8 +62,9 @@ header {
 
 header .logo {
   background-color: orange;
-  width: 200px;
+  /*width: 200px;*/
   height: 70px;
+  display: flex;
   /*
   position: absolute;
   line-height: 70px;
@@ -71,6 +73,13 @@ header .logo {
   */
 }
 
+header .logo span {
+  margin: auto;
+  font-family: monospace;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 10px;
+}
 header nav {
   background-color: yellow;
   margin-left: auto;
