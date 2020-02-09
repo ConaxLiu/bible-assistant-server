@@ -20,7 +20,7 @@ app.use("/api/search", searchRoutes);
 
 app.get("/", function(req, res) {
   console.log("Get root");
-  res.status(401).send("This is the Bible Assistant Server");
+  res.status(401).send("This is the Conax Bible Assistant Server");
 });
 
 app.listen(PORT, function() {
