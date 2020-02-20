@@ -4,19 +4,19 @@ module.exports.searchBible = (bible, phrase) => {
     console.log(`bible.js - searchBible`);
     try {
         let result = {};
-        let hasResult = false;
+        result.data = [];
 
         for (bookName in bible) {
             console.log(`Searching book ${bookName}`)
             let bookResult = this.searchBook(bible, bookName, phrase);
 
-            if (bookResult !== null) {
-                result[bookName] = bookResult;
-                hasResult = true;
+            if (bookResult.count > 0) {
+                result.data.push(...bookResult.data);
             }
         }
 
-        return hasResult ? result : null
+        result.count = result.data.length;
+        return result
     }
     catch {
         return null;
@@ -28,19 +28,19 @@ module.exports.searchBook = (bible, bookName, phrase) => {
     try {
         const book = contentController.getBook(bible, bookName);
         let result = {};
-        let hasResult = false;
+        result.data = [];
 
         for (chapterNo in book) {
             console.log(`Searching chapter ${chapterNo}`)
             let chapterResult = this.searchChapter(bible, bookName, chapterNo, phrase);
 
-            if (chapterResult !== null) {
-                result[chapterNo] = chapterResult;
-                hasResult = true;
+            if (chapterResult.count > 0) {
+                result.data.push(...chapterResult.data)
             }
         }
 
-        return hasResult ? result : null
+        result.count = result.data.length;
+        return result
     }
     catch {
         return null;
@@ -52,16 +52,23 @@ module.exports.searchChapter = (bible, bookName, chapterNo, phrase) => {
     try {
         const chapter = contentController.getChapter(bible, bookName, chapterNo);
         let result = {};
-        let hasResult = false;
+        result.data = [];
 
         for (verseNo in chapter) {
             if (chapter[verseNo].indexOf(phrase) > -1) {
-                result[verseNo] = chapter[verseNo];
-                hasResult = true
+                result.data.push(
+                    {
+                        bookName,
+                        chapterNo,
+                        verseNo,
+                        verse: chapter[verseNo]
+                    }
+                )
             }
         }
 
-        return hasResult ? result : null
+        result.count = result.data.length;
+        return result
     }
     catch {
         return null;
