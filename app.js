@@ -7,6 +7,8 @@ const searchRoutes = require("./routes/search");
 const express = require("express");
 const app = express();
 app.use(allowCORS);
+app.set('view engine', 'ejs');
+//console.log("URL", URL.hostname)
 
 const theBible = contentController.getWholeBibleFromDisk();
 app.use((req, res, next) => {
@@ -20,9 +22,14 @@ app.use("/api/search", searchRoutes);
 
 app.get("/", function(req, res) {
   console.log("Get root");
-  res.status(200).sendFile('files/help.html', {root: __dirname});
+  var fullHost = req.protocol + '://' + req.get('host');
+  console.log(fullHost)
+
+  //res.status(200).sendFile('files/help.html', {root: __dirname});
+  res.status(200).render('help.ejs', {host: fullHost});
 });
 
 app.listen(PORT, function() {
   console.log(`Listening on port ${PORT}...`);
+  console.log(URL)
 });
